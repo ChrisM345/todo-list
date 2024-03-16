@@ -6,44 +6,49 @@
     <title>Todo List</title>
 </head>
 <body>
-    <div class="navigation">
-        <dialog>
-            <!-- form here -->
-            <form>
-                <div class="form-row">
-                    <label for="title"><span aria-label="required">*</span>Task Title</label><br>
-                    <input type="text" name="title" id="title" required>
-                </div>
+    <div class="container">
+        <div class="navigation">
+            <dialog>
+                <!-- form here -->
+                <form>
+                    <div class="form-row">
+                        <label for="title"><span aria-label="required">*</span>Task Title</label><br>
+                        <input type="text" name="title" id="title" required>
+                    </div>
 
-                <div class="form-row">
-                    <label for="description"><span aria-label="required">*</span>Task Description</label><br>
-                    <input type="textarea" name="description" id="description" required>
-                </div>
+                    <div class="form-row">
+                        <label for="description"><span aria-label="required">*</span>Task Description</label><br>
+                        <input type="textarea" name="description" id="description" required>
+                    </div>
 
-                <div class="form-row">
-                    <label for="due-date"><span aria-label="required">*</span>Task Due Date</label><br>
-                    <input type="date" name="due-date" id="due-date" required>
-                </div>
+                    <div class="form-row">
+                        <label for="due-date"><span aria-label="required">*</span>Task Due Date</label><br>
+                        <input type="date" name="due-date" id="due-date" required>
+                    </div>
 
-                <div class="form-row">
-                    <label for="priority">Task Priority</label><br>
+                    <div class="form-row">
+                        <label for="priority">Task Priority</label><br>
 
-                    <label for="none">None:</label>
-                    <input type="radio" name="priority" id="none" value="none" checked>
+                        <label for="none">None:</label>
+                        <input type="radio" name="priority" id="none" value="none" checked>
 
-                    <label for="low">Low:</label>
-                    <input type="radio" name="priority" id="low" value="low">
+                        <label for="low">Low:</label>
+                        <input type="radio" name="priority" id="low" value="low">
 
-                    <label for="medium">Medium:</label>
-                    <input type="radio" name="priority" id="medium" value="medium">
+                        <label for="medium">Medium:</label>
+                        <input type="radio" name="priority" id="medium" value="medium">
 
-                    <label for="high">High:</label>
-                    <input type="radio" name="priority" id="high" value="high">
-                </div>
-                <button class="btnSubmit" type="submit">Add Todo Task</button>
-            </form>
-            <button class="close">Close</button>
-        </dialog>
+                        <label for="high">High:</label>
+                        <input type="radio" name="priority" id="high" value="high">
+                    </div>
+                    <button class="btnSubmit" type="submit">Add Todo Task</button>
+                </form>
+                <button class="close">Close</button>
+            </dialog>
+        </div>
+
+        <div class="content"></p>
+        </div>
     </div>
 </body>
 </html>
