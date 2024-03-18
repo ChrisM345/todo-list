@@ -51,7 +51,6 @@ class TodoItem {
     }
 
     editTask(){
-        console.log('edit!')
         const content = document.querySelector('.content');
         const createEditForm = `
         <dialog class="edit-dialog">
@@ -86,23 +85,49 @@ class TodoItem {
                 <label for="high">High:</label>
                 <input type="radio" name="edit-priority" id="edit-high" value="high">
             </div>
-            <button class="btnSubmit" type="submit">Add Todo Task</button>
+            <button class="editBtnSubmit" type="submit">Edit Todo Task</button>
         </form>
-        <button class="close">Close</button>
+        <button class="edit-close">Close</button>
     </dialog>`
 
     const editFormDiv = document.createElement('div')
     editFormDiv.innerHTML = createEditForm
     content.append(editFormDiv)
-    console.log(this.title)
+
+    //Set form values to what the task already has
     document.querySelector('#edit-title').value = this.title;
     document.querySelector('#edit-description').value = this.description;
     document.querySelector('#edit-due-date').value = this.dueDate;
-    // document.querySelector('#edit-due-date').value = '2024-03-18';
-    console.log(this.dueDate)
     document.querySelector(`#edit-${this.priority}`).checked = true
+
     const editDialog = document.querySelector('.edit-dialog');
+    const closeButton = document.querySelector('.edit-close');
+    const btnSubmit = document.querySelector(".editBtnSubmit");
+
     editDialog.showModal();
+
+    closeButton.addEventListener('click', () => {
+        editDialog.close();
+    })
+
+    btnSubmit.addEventListener('click', (event) => {
+        console.log("submit")
+        event.preventDefault();
+        const title = document.querySelector('#edit-title').value;
+        const description = document.querySelector('#edit-description').value;
+        const dueDate = document.querySelector('#edit-due-date').value;
+        const priority = document.querySelector('input[name="edit-priority"]:checked').value;
+        if (title && description && dueDate && priority){
+            this.title = title
+            this.description = description
+            this.dueDate = dueDate
+            this.priority = priority
+            editDialog.close();
+            this.displayItems();
+        }
+    })
+
+
 
     }
 
