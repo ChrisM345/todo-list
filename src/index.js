@@ -4,8 +4,6 @@ import { getProjectList, addProject } from "./navigation";
 import addTask from "./todo-item";
 
 navigationBar()
-getProjectList()
-addProject('test')
 
 const dialog = document.querySelector('dialog');
 const showButton = document.querySelector('dialog + button');

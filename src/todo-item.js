@@ -50,6 +50,62 @@ class TodoItem {
         content.append(task);
     }
 
+    editTask(){
+        console.log('edit!')
+        const content = document.querySelector('.content');
+        const createEditForm = `
+        <dialog class="edit-dialog">
+        <form>
+            <div class="form-row">
+                <label for="edit-title"><span aria-label="required">*</span>Task Title</label><br>
+                <input type="text" name="edit-title" id="edit-title" required>
+            </div>
+
+            <div class="form-row">
+                <label for="edit-description"><span aria-label="required">*</span>Task Description</label><br>
+                <input type="textarea" name="edit-description" id="edit-description" required>
+            </div>
+
+            <div class="form-row">
+                <label for="edit-due-date"><span aria-label="required">*</span>Task Due Date</label><br>
+                <input type="date" name="edit-due-date" id="edit-due-date" required>
+            </div>
+
+            <div class="form-row">
+                <label for="edit-priority">Task Priority</label><br>
+
+                <label for="none">None:</label>
+                <input type="radio" name="edit-priority" id="edit-none" value="none">
+
+                <label for="low">Low:</label>
+                <input type="radio" name="edit-priority" id="edit-low" value="low">
+
+                <label for="medium">Medium:</label>
+                <input type="radio" name="edit-priority" id="edit-medium" value="medium">
+
+                <label for="high">High:</label>
+                <input type="radio" name="edit-priority" id="edit-high" value="high">
+            </div>
+            <button class="btnSubmit" type="submit">Add Todo Task</button>
+        </form>
+        <button class="close">Close</button>
+    </dialog>`
+
+    const editFormDiv = document.createElement('div')
+    editFormDiv.innerHTML = createEditForm
+    content.append(editFormDiv)
+    console.log(this.title)
+    document.querySelector('#edit-title').value = this.title;
+    document.querySelector('#edit-description').value = this.description;
+    document.querySelector('#edit-due-date').value = this.dueDate;
+    // document.querySelector('#edit-due-date').value = '2024-03-18';
+    console.log(this.dueDate)
+    document.querySelector(`#edit-${this.priority}`).checked = true
+    const editDialog = document.querySelector('.edit-dialog');
+    editDialog.showModal();
+
+    }
+
     deleteTask(){
         listOfTodos.splice(this.idx, 1);
         listOfTodos.forEach((item, i) => {
@@ -77,28 +133,37 @@ class TodoItem {
             const delTaskBtn = document.createElement('button');
             delTaskBtn.className = 'delete-task';
             delTaskBtn.innerText = 'Delete Task';
+
+            const editTaskBtn = document.createElement('button');
+            editTaskBtn.className = 'edit-task'
+            editTaskBtn.innerText = 'Edit Task'
     
             delTaskBtn.addEventListener('click', () => {
                 todo.deleteTask();
             })
 
+            editTaskBtn.addEventListener('click', () => {
+                todo.editTask();
+            })
+
             task.append(header)
             task.append(desc)
             task.append(delTaskBtn)
+            task.append(editTaskBtn)
             content.append(task)
         })
     }
 }
 
-let task1 = new TodoItem('test1', 'desc of test 1', '2024-3-16', 'low');
+let task1 = new TodoItem('test1', 'desc of test 1', '2024-03-16', 'high');
 listOfTodos.push(task1)
-let task2 = new TodoItem('test2', 'desc of test 2', '2024-3-16', 'low');
+let task2 = new TodoItem('test2', 'desc of test 2', '2024-03-16', 'low');
 listOfTodos.push(task2)
-let task3 = new TodoItem('test3', 'desc of test 3', '2024-3-16', 'low');
+let task3 = new TodoItem('test3', 'desc of test 3', '2024-03-16', 'low');
 listOfTodos.push(task3)
-let task4 = new TodoItem('test4', 'desc of test 4', '2024-3-16', 'low');
+let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-16', 'low');
 listOfTodos.push(task4)
-let task5 = new TodoItem('test5', 'desc of test 5', '2024-3-16', 'low');
+let task5 = new TodoItem('test5', 'desc of test 5', '2024-03-16', 'low');
 listOfTodos.push(task5)
 
 task5.displayItems();
