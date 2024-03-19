@@ -2,19 +2,93 @@ import { addProject } from "./navigation"
 
 const listOfTodos = [];
 
-
-
-
-
 export default function addTask(title, description, dueDate, priority) {
-    // // addProject(task)
-    // console.log(title)
-    // console.log(description)
-    // console.log(dueDate)
-    // console.log(priority)
     let task = new TodoItem(title, description, dueDate, priority);
     task.addItem();
     console.log(listOfTodos)
+}
+
+function taskForm(obj){
+    const form = document.querySelector('.form');
+    const createEditForm = `
+    <dialog class="dialog">
+    <form>
+        <div class="form-row">
+            <label for="title"><span aria-label="required">*</span>Task Title</label><br>
+            <input type="text" name="title" id="title" required>
+        </div>
+
+        <div class="form-row">
+            <label for="description"><span aria-label="required">*</span>Task Description</label><br>
+            <input type="textarea" name="description" id="description" required>
+        </div>
+
+        <div class="form-row">
+            <label for="due-date"><span aria-label="required">*</span>Task Due Date</label><br>
+            <input type="date" name="due-date" id="due-date" required>
+        </div>
+
+        <div class="form-row">
+            <label for="priority">Task Priority</label><br>
+
+            <label for="none">None:</label>
+            <input type="radio" name="priority" id="none" value="none">
+
+            <label for="low">Low:</label>
+            <input type="radio" name="priority" id="low" value="low">
+
+            <label for="medium">Medium:</label>
+            <input type="radio" name="priority" id="medium" value="medium">
+
+            <label for="high">High:</label>
+            <input type="radio" name="priority" id="high" value="high">
+        </div>
+        <button class="btnSubmit" type="submit">Submit</button>
+    </form>
+    <button class="close">Close</button>
+    </dialog>`
+
+    // const formDiv = document.createElement('div')
+    form.innerHTML = createEditForm
+    // form.append(formDiv)
+
+    //Set form values to what the task already has if we are editing one
+    if(obj){
+        console.log("test")
+        document.querySelector('#title').value = obj.title;
+        document.querySelector('#description').value = obj.description;
+        document.querySelector('#due-date').value = obj.dueDate;
+        document.querySelector(`#${obj.priority}`).checked = true
+    }
+
+    const dialog = document.querySelector('.dialog');
+    const closeButton = document.querySelector('.close');
+    const btnSubmit = document.querySelector(".btnSubmit");
+
+    dialog.showModal();
+
+    closeButton.addEventListener('click', () => {
+        dialog.close();
+        form.innerHTML = '';
+    })
+
+    btnSubmit.addEventListener('click', (event) => {
+        event.preventDefault();
+        const title = document.querySelector('#title').value;
+        const description = document.querySelector('#description').value;
+        const dueDate = document.querySelector('#due-date').value;
+        const priority = document.querySelector('input[name="priority"]:checked').value;
+        if (title && description && dueDate && priority){
+            if(obj){
+                console.log("editing")//setTask(title, description, dueDate, priority)
+                obj.setTask(title, description, dueDate, priority)
+            } else{
+                addTask(title, description, dueDate, priority)
+            }
+            dialog.close();
+            form.innerHTML = '';
+        }
+    })
 }
 
 class TodoItem {
@@ -50,6 +124,13 @@ class TodoItem {
         content.append(task);
     }
 
+    setTask(title, description, dueDate, priority){
+        this.title = title
+        this.description = description
+        this.dueDate = dueDate
+        this.priority = priority
+        this.displayItems();
+    }
     editTask(){
         const content = document.querySelector('.content');
         const createEditForm = `
@@ -85,7 +166,7 @@ class TodoItem {
                 <label for="high">High:</label>
                 <input type="radio" name="edit-priority" id="edit-high" value="high">
             </div>
-            <button class="editBtnSubmit" type="submit">Edit Todo Task</button>
+            <button class="editBtnSubmit" type="submit">Submit</button>
         </form>
         <button class="edit-close">Close</button>
     </dialog>`
@@ -168,7 +249,8 @@ class TodoItem {
             })
 
             editTaskBtn.addEventListener('click', () => {
-                todo.editTask();
+                taskForm(this)
+                // todo.editTask();
             })
 
             task.append(header)
@@ -196,3 +278,5 @@ task5.displayItems();
 // Brainstorm what kind of properties your todo-items are going to have. 
 // At a minimum they should have a title, description, dueDate and priority. 
 // You might also want to include notes or even a checklist.
+
+export {taskForm}
