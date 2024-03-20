@@ -20,10 +20,8 @@ function getProjectsFormHTML() {
         const option = document.createElement('option');
         option.value = project;
         option.innerText = project;
-        console.log(option.outerHTML);
         projectsHTML += option.outerHTML;
     })
-    console.log(projectsHTML)
     return projectsHTML;
 }
 

@@ -62,6 +62,8 @@ function taskForm(obj){
     //Set form values to what the task already has if we are editing one
     if(obj){
         console.log("test")
+        console.log(obj.priority)
+        console.log(obj)
         document.querySelector('#title').value = obj.title;
         document.querySelector('#description').value = obj.description;
         document.querySelector('#due-date').value = obj.dueDate;
@@ -110,27 +112,28 @@ class TodoItem {
     }
 
     addItem(){
-        listOfTodos.push(this)
-        const content = document.querySelector('.content');
-        const task = document.createElement('div')
-        task.className = 'task';
-        const header = document.createElement('h3')
-        header.innerText = this.title
-        const desc = document.createElement('p')
-        desc.innerText = this.description
+        listOfTodos.push(this);
+        // const content = document.querySelector('.content');
+        // const task = document.createElement('div')
+        // task.className = 'task';
+        // const header = document.createElement('h3')
+        // header.innerText = this.title
+        // const desc = document.createElement('p')
+        // desc.innerText = this.description
 
-        const delTaskBtn = document.createElement('button');
-        delTaskBtn.className = 'delete-task';
-        delTaskBtn.innerText = 'Delete Task';
+        // const delTaskBtn = document.createElement('button');
+        // delTaskBtn.className = 'delete-task';
+        // delTaskBtn.innerText = 'Delete Task';
 
-        delTaskBtn.addEventListener('click', () => {
-            this.deleteTask();
-        })
+        // delTaskBtn.addEventListener('click', () => {
+        //     this.deleteTask();
+        // })
 
-        task.append(header);
-        task.append(desc);
-        task.append(delTaskBtn);
-        content.append(task);
+        // task.append(header);
+        // task.append(desc);
+        // task.append(delTaskBtn);
+        // content.append(task);
+        this.displayItems();
     }
 
     setTask(title, description, dueDate, priority){
@@ -139,6 +142,10 @@ class TodoItem {
         this.dueDate = dueDate
         this.priority = priority
         this.displayItems();
+    }
+
+    editTask(){
+        taskForm(this);
     }
 
     deleteTask(){
@@ -177,7 +184,7 @@ class TodoItem {
             })
 
             editTaskBtn.addEventListener('click', () => {
-                taskForm(this)
+                todo.editTask();
             })
 
             task.append(header)
@@ -192,16 +199,17 @@ class TodoItem {
 //test data
 let task1 = new TodoItem('test1', 'desc of test 1', '2024-03-16', 'high');
 listOfTodos.push(task1)
-let task2 = new TodoItem('test2', 'desc of test 2', '2024-03-16', 'low');
+let task2 = new TodoItem('test2', 'desc of test 2', '2024-03-16', 'medium');
 listOfTodos.push(task2)
 let task3 = new TodoItem('test3', 'desc of test 3', '2024-03-16', 'low');
 listOfTodos.push(task3)
-let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-16', 'low');
+let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-16', 'high');
 listOfTodos.push(task4)
-let task5 = new TodoItem('test5', 'desc of test 5', '2024-03-16', 'low');
+let task5 = new TodoItem('test5', 'desc of test 5', '2024-03-16', 'none');
 listOfTodos.push(task5)
 
 task5.displayItems();
+console.log(listOfTodos)
 
 
 export {taskForm}
