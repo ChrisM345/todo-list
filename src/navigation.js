@@ -14,7 +14,8 @@ export default function navigationBar() {
     defaultList.append(todoListItem)
 
 
-    let navigationDefaultItems = ['Today', 'Next 7 Days', 'All My Tasks', 'My Calendar'];
+    //Include default views for tasks
+    const navigationDefaultItems = ['Today', 'Next 7 Days', 'All My Tasks'];
     navigationDefaultItems.forEach((item) => {
         const listItem = document.createElement('li');
         listItem.className = 'list-item';
@@ -23,17 +24,21 @@ export default function navigationBar() {
     })
 
 
-
+    //Include views for different project labels
     const projectList = document.createElement('ul')
 
+    //Add a button to prompt user for new project label.
     const addProjectBtn = document.createElement('button');
     addProjectBtn.className = 'add-project-btn';
     addProjectBtn.innerText = 'Add Project'
     projectList.append(addProjectBtn)
 
+    //Project List Header
     const projectListHeader = document.createElement('h3');
     projectListHeader.innerText = 'My Projects'
     projectList.append(projectListHeader)
+
+    //Get the array of projects and add each label to the navigation bar
     const myProjects = getProjects()
     myProjects.forEach((project) => {
         const listItem = document.createElement('li');
@@ -45,6 +50,8 @@ export default function navigationBar() {
 
     addProjectBtn.addEventListener('click', () => {
         let project = prompt("Please enter project name", "All")
+
+        //Adds the project only if the label doesn't already exist in the array
         const addedProjectBool = addProject(project)
         if (addedProjectBool) {
             const listItem = document.createElement('li');
@@ -58,12 +65,3 @@ export default function navigationBar() {
     navigationBar.append(projectList)
     //<ul><li>
 }
-
-function getProjectList(){
-    console.log(myProjects)
-}
-
-
-
-
-export {getProjectList}

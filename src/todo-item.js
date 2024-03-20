@@ -1,14 +1,15 @@
-import { addProject } from "./navigation"
 import { getProjectsFormHTML } from "./projects";
 
 const listOfTodos = [];
 
+//Create new object and add it to the list of tasks
 export default function addTask(title, description, dueDate, priority) {
     let task = new TodoItem(title, description, dueDate, priority);
     task.addItem();
     console.log(listOfTodos)
 }
 
+//Form for both creating and editing tasks
 function taskForm(obj){
     const form = document.querySelector('.form');
     const createEditForm = `
@@ -56,9 +57,7 @@ function taskForm(obj){
     <button class="close">Close</button>
     </dialog>`
 
-    // const formDiv = document.createElement('div')
     form.innerHTML = createEditForm
-    // form.append(formDiv)
 
     //Set form values to what the task already has if we are editing one
     if(obj){
@@ -86,9 +85,10 @@ function taskForm(obj){
         const description = document.querySelector('#description').value;
         const dueDate = document.querySelector('#due-date').value;
         const priority = document.querySelector('input[name="priority"]:checked').value;
+        //Check that the fields are filled out. 
+        //If an obj was passed to the function we edit the task. Otherwise, we add it.
         if (title && description && dueDate && priority){
             if(obj){
-                console.log("editing")//setTask(title, description, dueDate, priority)
                 obj.setTask(title, description, dueDate, priority)
             } else{
                 addTask(title, description, dueDate, priority)
@@ -100,7 +100,7 @@ function taskForm(obj){
 }
 
 class TodoItem {
-    constructor(title, description, dueDate, priority, projects = ['All']){
+    constructor(title, description, dueDate, priority, projects = 'All'){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -139,87 +139,6 @@ class TodoItem {
         this.dueDate = dueDate
         this.priority = priority
         this.displayItems();
-    }
-
-    editTask(){
-        const content = document.querySelector('.content');
-        const createEditForm = `
-        <dialog class="edit-dialog">
-        <form>
-            <div class="form-row">
-                <label for="edit-title"><span aria-label="required">*</span>Task Title</label><br>
-                <input type="text" name="edit-title" id="edit-title" required>
-            </div>
-
-            <div class="form-row">
-                <label for="edit-description"><span aria-label="required">*</span>Task Description</label><br>
-                <input type="textarea" name="edit-description" id="edit-description" required>
-            </div>
-
-            <div class="form-row">
-                <label for="edit-due-date"><span aria-label="required">*</span>Task Due Date</label><br>
-                <input type="date" name="edit-due-date" id="edit-due-date" required>
-            </div>
-
-            <div class="form-row">
-                <label for="edit-priority">Task Priority</label><br>
-
-                <label for="none">None:</label>
-                <input type="radio" name="edit-priority" id="edit-none" value="none">
-
-                <label for="low">Low:</label>
-                <input type="radio" name="edit-priority" id="edit-low" value="low">
-
-                <label for="medium">Medium:</label>
-                <input type="radio" name="edit-priority" id="edit-medium" value="medium">
-
-                <label for="high">High:</label>
-                <input type="radio" name="edit-priority" id="edit-high" value="high">
-            </div>
-            <button class="editBtnSubmit" type="submit">Submit</button>
-        </form>
-        <button class="edit-close">Close</button>
-    </dialog>`
-
-    const editFormDiv = document.createElement('div')
-    editFormDiv.innerHTML = createEditForm
-    content.append(editFormDiv)
-
-    //Set form values to what the task already has
-    document.querySelector('#edit-title').value = this.title;
-    document.querySelector('#edit-description').value = this.description;
-    document.querySelector('#edit-due-date').value = this.dueDate;
-    document.querySelector(`#edit-${this.priority}`).checked = true
-
-    const editDialog = document.querySelector('.edit-dialog');
-    const closeButton = document.querySelector('.edit-close');
-    const btnSubmit = document.querySelector(".editBtnSubmit");
-
-    editDialog.showModal();
-
-    closeButton.addEventListener('click', () => {
-        editDialog.close();
-    })
-
-    btnSubmit.addEventListener('click', (event) => {
-        console.log("submit")
-        event.preventDefault();
-        const title = document.querySelector('#edit-title').value;
-        const description = document.querySelector('#edit-description').value;
-        const dueDate = document.querySelector('#edit-due-date').value;
-        const priority = document.querySelector('input[name="edit-priority"]:checked').value;
-        if (title && description && dueDate && priority){
-            this.title = title
-            this.description = description
-            this.dueDate = dueDate
-            this.priority = priority
-            editDialog.close();
-            this.displayItems();
-        }
-    })
-
-
-
     }
 
     deleteTask(){
@@ -270,6 +189,7 @@ class TodoItem {
     }
 }
 
+//test data
 let task1 = new TodoItem('test1', 'desc of test 1', '2024-03-16', 'high');
 listOfTodos.push(task1)
 let task2 = new TodoItem('test2', 'desc of test 2', '2024-03-16', 'low');
