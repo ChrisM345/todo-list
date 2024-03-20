@@ -1,4 +1,4 @@
-const myProjects = ['All']
+import { getProjects, addProject} from "./projects";
 
 export default function navigationBar() {
     const navigationBar = document.querySelector('.navigation');
@@ -22,15 +22,36 @@ export default function navigationBar() {
         defaultList.append(listItem);
     })
 
+
+
     const projectList = document.createElement('ul')
+
+    const addProjectBtn = document.createElement('button');
+    addProjectBtn.className = 'add-project-btn';
+    addProjectBtn.innerText = 'Add Project'
+    projectList.append(addProjectBtn)
+
     const projectListHeader = document.createElement('h3');
     projectListHeader.innerText = 'My Projects'
     projectList.append(projectListHeader)
+    const myProjects = getProjects()
     myProjects.forEach((project) => {
         const listItem = document.createElement('li');
         listItem.className = 'list-item';
         listItem.innerText = project;
         projectList.append(listItem);
+    })
+
+
+    addProjectBtn.addEventListener('click', () => {
+        let project = prompt("Please enter project name", "All")
+        const addedProjectBool = addProject(project)
+        if (addedProjectBool) {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-item';
+            listItem.innerText = project;
+            projectList.append(listItem);
+        }
     })
 
     navigationBar.append(defaultList)
@@ -42,9 +63,7 @@ function getProjectList(){
     console.log(myProjects)
 }
 
-function addProject(projectName){
-    myProjects.push(projectName)
-    getProjectList();
-}
 
-export {getProjectList, addProject}
+
+
+export {getProjectList}

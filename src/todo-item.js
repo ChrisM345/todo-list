@@ -1,4 +1,5 @@
 import { addProject } from "./navigation"
+import { getProjectsFormHTML } from "./projects";
 
 const listOfTodos = [];
 
@@ -42,6 +43,13 @@ function taskForm(obj){
 
             <label for="high">High:</label>
             <input type="radio" name="priority" id="high" value="high">
+        </div>
+
+        <div class="form-row">
+            <label for="project">Project Label</label><br>
+            <select name="project" id="project">
+                `+getProjectsFormHTML()+`
+            </select>
         </div>
         <button class="btnSubmit" type="submit">Submit</button>
     </form>
@@ -92,11 +100,12 @@ function taskForm(obj){
 }
 
 class TodoItem {
-    constructor(title, description, dueDate, priority){
+    constructor(title, description, dueDate, priority, projects = ['All']){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.projects = projects;
         this.idx = listOfTodos.length;
     }
 
@@ -131,6 +140,7 @@ class TodoItem {
         this.priority = priority
         this.displayItems();
     }
+
     editTask(){
         const content = document.querySelector('.content');
         const createEditForm = `
@@ -228,7 +238,6 @@ class TodoItem {
         const content = document.querySelector('.content');
         content.innerHTML = '';
         listOfTodos.forEach((todo) => {
-            //do something
             const task = document.createElement('div')
             task.className = 'task';
             const header = document.createElement('h3')
@@ -250,7 +259,6 @@ class TodoItem {
 
             editTaskBtn.addEventListener('click', () => {
                 taskForm(this)
-                // todo.editTask();
             })
 
             task.append(header)
@@ -275,8 +283,5 @@ listOfTodos.push(task5)
 
 task5.displayItems();
 
-// Brainstorm what kind of properties your todo-items are going to have. 
-// At a minimum they should have a title, description, dueDate and priority. 
-// You might also want to include notes or even a checklist.
 
 export {taskForm}
