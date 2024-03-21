@@ -1,4 +1,5 @@
 import { getProjects, addProject} from "./projects";
+import { setCurrentView } from "./todo-item";
 
 export default function navigationBar() {
     const navigationBar = document.querySelector('.navigation');
@@ -18,11 +19,21 @@ export default function navigationBar() {
     const navigationDefaultItems = ['Today', 'Next 7 Days', 'All My Tasks'];
     navigationDefaultItems.forEach((item) => {
         const listItem = document.createElement('li');
-        listItem.className = 'list-item';
-        listItem.innerText = item;
+        const listButton = document.createElement('button')
+        listButton.className = 'list-item';
+        listButton.innerText = item;
+        listButton.addEventListener('click', (e) => {
+            displayTaskCase(e.target.innerText);
+        })
+        listItem.append(listButton)
         defaultList.append(listItem);
     })
 
+    const nextSevenBtn = document.querySelector('.Next-7-Days')
+    console.log(nextSevenBtn)
+    // nextSevenBtn.addEventListener('click', () =>{
+    //     console.log("test")
+    // })
 
     //Include views for different project labels
     const projectList = document.createElement('ul')
@@ -64,4 +75,21 @@ export default function navigationBar() {
     navigationBar.append(defaultList)
     navigationBar.append(projectList)
     //<ul><li>
+}
+
+function displayTaskCase(time){
+    switch (time) {
+        case 'Today':
+            adjustTaskView(0);
+            break;
+        case 'Next 7 Days':
+            adjustTaskView(7);
+            break;
+        case 'All My Tasks':
+            adjustTaskView(1);
+            break;
+    }
+}
+function adjustTaskView(time){
+    setCurrentView(time)
 }

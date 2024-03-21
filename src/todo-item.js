@@ -1,6 +1,12 @@
 import { getProjectsFormHTML } from "./projects";
 
 const listOfTodos = [];
+let currentView = 1
+
+function setCurrentView(time){
+    currentView = time;
+    displayItems(currentView)
+}
 
 //Create new object and add it to the list of tasks
 export default function addTask(title, description, dueDate, priority) {
@@ -133,7 +139,7 @@ class TodoItem {
         // task.append(desc);
         // task.append(delTaskBtn);
         // content.append(task);
-        this.displayItems();
+        displayItems(currentView);
     }
 
     setTask(title, description, dueDate, priority){
@@ -141,7 +147,7 @@ class TodoItem {
         this.description = description
         this.dueDate = dueDate
         this.priority = priority
-        this.displayItems();
+        displayItems(currentView);
     }
 
     editTask(){
@@ -153,23 +159,76 @@ class TodoItem {
         listOfTodos.forEach((item, i) => {
             item.idx = i
         })
-        this.displayItems();
+        displayItems(currentView);
     }
 
     listItems(){
         console.log(listOfTodos)
     }
 
-    displayItems(){
-        const content = document.querySelector('.content');
-        content.innerHTML = '';
-        listOfTodos.forEach((todo) => {
+    // displayItems(){
+    //     const content = document.querySelector('.content');
+    //     content.innerHTML = '';
+    //     listOfTodos.forEach((todo) => {
+    //         const task = document.createElement('div')
+    //         task.className = 'task';
+    //         const header = document.createElement('h3')
+    //         header.innerText = todo.title
+    //         const desc = document.createElement('p')
+    //         desc.innerText = todo.description
+    //         const dueDate = document.createElement('p');
+    //         dueDate.innerText = todo.dueDate;
+    //         const priority = document.createElement('p')
+    //         priority.innerText = todo.priority
+
+    //         const delTaskBtn = document.createElement('button');
+    //         delTaskBtn.className = 'delete-task';
+    //         delTaskBtn.innerText = 'Delete Task';
+
+    //         const editTaskBtn = document.createElement('button');
+    //         editTaskBtn.className = 'edit-task'
+    //         editTaskBtn.innerText = 'Edit Task'
+    
+    //         delTaskBtn.addEventListener('click', () => {
+    //             todo.deleteTask();
+    //         })
+
+    //         editTaskBtn.addEventListener('click', () => {
+    //             todo.editTask();
+    //         })
+
+    //         task.append(header)
+    //         task.append(desc)
+    //         task.append(dueDate)
+    //         task.append(priority)
+    //         task.append(delTaskBtn)
+    //         task.append(editTaskBtn)
+    //         content.append(task)
+    //     })
+    // }
+}
+
+
+function displayItems(time){
+    const date = new Date();
+    const today = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    const futureDate = new Date()
+    futureDate.setDate(futureDate.getDate() + time)
+    const future = new Date(futureDate.getTime() - (futureDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    const content = document.querySelector('.content');
+    content.innerHTML = '';
+    listOfTodos.forEach((todo) => {
+        if (time == 1 || (todo.dueDate >= today && todo.dueDate <= future)){
             const task = document.createElement('div')
             task.className = 'task';
             const header = document.createElement('h3')
             header.innerText = todo.title
             const desc = document.createElement('p')
             desc.innerText = todo.description
+            const dueDate = document.createElement('p');
+            dueDate.innerText = todo.dueDate;
+            const priority = document.createElement('p')
+            priority.innerText = todo.priority
 
             const delTaskBtn = document.createElement('button');
             delTaskBtn.className = 'delete-task';
@@ -178,7 +237,7 @@ class TodoItem {
             const editTaskBtn = document.createElement('button');
             editTaskBtn.className = 'edit-task'
             editTaskBtn.innerText = 'Edit Task'
-    
+
             delTaskBtn.addEventListener('click', () => {
                 todo.deleteTask();
             })
@@ -189,27 +248,31 @@ class TodoItem {
 
             task.append(header)
             task.append(desc)
+            task.append(dueDate)
+            task.append(priority)
             task.append(delTaskBtn)
             task.append(editTaskBtn)
             content.append(task)
-        })
-    }
+        }
+    })
 }
 
+
+
 //test data
-let task1 = new TodoItem('test1', 'desc of test 1', '2024-03-16', 'high');
+let task1 = new TodoItem('test1', 'desc of test 1', '2024-03-20', 'high');
 listOfTodos.push(task1)
-let task2 = new TodoItem('test2', 'desc of test 2', '2024-03-16', 'medium');
+let task2 = new TodoItem('test2', 'desc of test 2', '2024-03-26', 'medium');
 listOfTodos.push(task2)
-let task3 = new TodoItem('test3', 'desc of test 3', '2024-03-16', 'low');
+let task3 = new TodoItem('test3', 'desc of test 3', '2024-03-27', 'low');
 listOfTodos.push(task3)
-let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-16', 'high');
+let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-28', 'high');
 listOfTodos.push(task4)
-let task5 = new TodoItem('test5', 'desc of test 5', '2024-03-16', 'none');
+let task5 = new TodoItem('test5', 'desc of test 5', '2024-05-16', 'none');
 listOfTodos.push(task5)
 
-task5.displayItems();
+displayItems(currentView);
 console.log(listOfTodos)
 
 
-export {taskForm}
+export {taskForm, displayItems, setCurrentView}
