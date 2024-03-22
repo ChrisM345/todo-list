@@ -156,6 +156,14 @@ class TodoItem {
     }
 }
 
+function resetDeletedProject(project){
+    listOfTodos.forEach((item) => {
+        if (item.projects == project){
+            item.projects = 'All'
+        }
+    })
+    displayItems(currentView)
+}
 
 function displayItems(time){
     sortTasks(listOfTodos)
@@ -240,4 +248,4 @@ sortTasks(listOfTodos)
 displayItems(currentView);
 
 
-export {taskForm, displayItems, setCurrentView}
+export {taskForm, displayItems, setCurrentView, resetDeletedProject}

@@ -1,6 +1,5 @@
-import { getProjects, addProject} from "./projects";
 import { setCurrentView } from "./todo-item";
-import { getSelectedProjectView, setSelectedProjectView} from "./projects";
+import { getProjects, addProject, getSelectedProjectView, setSelectedProjectView, deleteProjectForm} from "./projects";
 
 export default function navigationBar() {
     const topBar = document.querySelector('.top-bar');
@@ -43,6 +42,15 @@ export default function navigationBar() {
     addProjectBtn.className = 'add-project-btn';
     addProjectBtn.innerText = 'Add Project'
     projectList.append(addProjectBtn)
+
+    const deleteProjectBtn = document.createElement('button');
+    deleteProjectBtn.className = 'del-project-btn';
+    deleteProjectBtn.innerText = 'Delete Project'
+    deleteProjectBtn.addEventListener('click', () => {
+        deleteProjectForm();
+    })
+
+    projectList.append(deleteProjectBtn)
 
     //Project List Header
     const projectListHeader = document.createElement('h3');
