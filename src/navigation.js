@@ -65,6 +65,7 @@ export default function navigationBar() {
         const listItem = document.createElement('li');
         const listButton = document.createElement('button')
         listButton.className = 'list-item';
+        listButton.classList.add(`project-${project}`)
         listButton.innerText = project;
         //Set the project label as a button and allow it to update the current task view
         listButton.addEventListener('click', (e) => {
@@ -86,6 +87,7 @@ export default function navigationBar() {
             const listItem = document.createElement('li');
             const listButton = document.createElement('button')
             listButton.className = 'list-item';
+            listButton.classList.add(`project-${project}`)
             listButton.innerText = project;
             //Set the project label as a button and allow it to update the current task view
             listButton.addEventListener('click', (e) => {

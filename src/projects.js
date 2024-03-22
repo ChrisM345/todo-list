@@ -1,5 +1,6 @@
 import { resetDeletedProject } from "./todo-item";
 import saveLocalStorage from "./localstorage";
+import navigationBar from "./navigation";
 
 const myProjects = ['All', 'Test']
 let selectedProjectView = 'All';
@@ -40,6 +41,8 @@ function setSelectedProjectView(view){
 
 function deleteProject(project){
     console.log(project)
+    const deletedProject = document.querySelector(`.project-${project}`)
+    deletedProject.parentNode.remove();
     myProjects.splice(myProjects.indexOf(project), 1);
     saveLocalStorage();
     resetDeletedProject(project)

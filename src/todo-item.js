@@ -2,12 +2,12 @@ import { getProjectsFormHTML, getSelectedProjectView} from "./projects";
 import saveLocalStorage from "./localstorage";
 
 const listOfTodos = [];
-let currentView = 1
+let maxID = 0;
+let currentView = 1;
 
-function sortTasks(tasks){
-    tasks.sort((a, b) => {
+function sortTasks(){
+    listOfTodos.sort((a, b) => {
         return (a.dueDate > b.dueDate) ? 1 : ((b.dueDate > a.dueDate) ? -1 : 0 )})
-    console.log(tasks)
 }
 
 function setCurrentView(time){
@@ -73,9 +73,6 @@ function taskForm(obj){
 
     //Set form values to what the task already has if we are editing one
     if(obj){
-        console.log("test")
-        console.log(obj.priority)
-        console.log(obj)
         document.querySelector('#title').value = obj.title;
         document.querySelector('#description').value = obj.description;
         document.querySelector('#due-date').value = obj.dueDate;
@@ -116,17 +113,18 @@ function taskForm(obj){
 }
 
 class TodoItem {
-    constructor(title, description, dueDate, priority, projects){
+    constructor(title, description, dueDate, priority, projects, idx, completed){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.projects = projects;
-        this.idx = listOfTodos.length;
-        this.completed = false;
+        this.idx = idx == undefined ? maxID : idx;
+        this.completed = completed == undefined ? false : completed;
     }
 
     addItem(){
+        maxID += 1;
         listOfTodos.push(this);
         displayItems(currentView);
         saveLocalStorage();
@@ -149,21 +147,18 @@ class TodoItem {
     }
 
     deleteTask(){
-        listOfTodos.splice(this.idx, 1);
-        listOfTodos.forEach((item, i) => {
-            item.idx = i
+        const idx = listOfTodos.findIndex((item) => {
+            return item.idx == this.idx
         })
+        console.log(idx)
+        listOfTodos.splice(idx, 1);
         displayItems(currentView);
         saveLocalStorage();
     }
 
-    setComplete(){
+    toggleComplete(){
         this.completed = !this.completed
         saveLocalStorage();
-    }
-
-    listItems(){
-        console.log(listOfTodos)
     }
 }
 
@@ -185,13 +180,14 @@ function setTasksFromLocalStorage(data){
     listOfTodos.length = 0;
     data.forEach((task) => {
         console.log(task)
-        listOfTodos.push(task);
+        let newTask = new TodoItem(task.title, task.description, task.dueDate, task.priority, task.projects, task.idx, task.completed)
+        listOfTodos.push(newTask);
     })
     displayItems(currentView);
 }
 
 function displayItems(time){
-    sortTasks(listOfTodos)
+    sortTasks()
     const date = new Date();
     const today = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
     const futureDate = new Date()
@@ -237,10 +233,13 @@ function displayItems(time){
                 completedTask.innerText = 'Set Complete'
 
                 completedTask.addEventListener('click', (event) => {
-                    todo.setComplete();
+                    todo.toggleComplete();
                     console.log(event.target.parentNode)
-                    if(todo.completed) {event.target.parentNode.classList.add('task-completed')}
-                    else {event.target.parentNode.classList.remove('task-completed')}
+                    if(todo.completed) {
+                        event.target.parentNode.classList.add('task-completed')
+                    } else {
+                        event.target.parentNode.classList.remove('task-completed')
+                    }
                 })
 
                 task.append(header)
@@ -262,26 +261,36 @@ function displayItems(time){
 //test data
 let task1 = new TodoItem('test1', 'desc of test 1', '2024-05-20', 'High', 'All');
 listOfTodos.push(task1)
+maxID += 1;
 let task2 = new TodoItem('test2', 'desc of test 2', '2024-07-26', 'Medium', 'All');
 listOfTodos.push(task2)
+maxID += 1;
 let task3 = new TodoItem('test3', 'desc of test 3', '2024-03-27', 'Low', 'All');
 listOfTodos.push(task3)
+maxID += 1;
 let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-10', 'High', 'All');
 listOfTodos.push(task4)
+maxID += 1;
 let task5 = new TodoItem('test5', 'desc of test 5', '2023-05-16', 'None', 'All');
 listOfTodos.push(task5)
+maxID += 1;
 let task6 = new TodoItem('test6', 'desc of test 6', '2024-10-16', 'None', 'All');
 listOfTodos.push(task6)
+maxID += 1;
 let task7 = new TodoItem('test7', 'desc of test 7', '2024-12-16', 'None', 'All');
 listOfTodos.push(task7)
+maxID += 1;
 let task8 = new TodoItem('test8', 'desc of test 8', '2024-01-16', 'None', 'All');
 listOfTodos.push(task8)
+maxID += 1;
 let task9 = new TodoItem('test9', 'desc of test 9', '2024-02-16', 'None', 'All');
 listOfTodos.push(task9)
+maxID += 1;
 let task10 = new TodoItem('test10', 'desc of test 10', '2024-01-16', 'None', 'All');
 listOfTodos.push(task10)
+maxID += 1;
 
-sortTasks(listOfTodos)
+sortTasks()
 displayItems(currentView);
 
 
