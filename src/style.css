@@ -15,7 +15,6 @@ h3{
 }
 
 .top-bar{
-    border: solid red;
     grid-column-start: 2;
     min-height: 50px;
     max-height: 50px;
@@ -29,7 +28,6 @@ h3{
     /* grid-column-start: 1; */
     grid-row: 1 / 3;
     display: flex;
-    border: solid purple;
     flex-direction: column;
     min-width: 200px;
     gap: 20px;
@@ -50,7 +48,6 @@ ul{
 }
 
 .content{
-    border: solid orange;
 }
 
 .task {

@@ -3,26 +3,23 @@ import { getProjects, setProjectsFromLocalStorage } from "./projects";
 import { setTasksFromLocalStorage } from "./todo-item";
 
 
-export default function updateLocalStorage(){
+export default function saveLocalStorage(){
     const projectData = JSON.stringify(getProjects());
     const taskData = JSON.stringify(getTasks());
     localStorage.setItem('tasks', taskData);
     localStorage.setItem('projects', projectData)
 }
 
-function getSavedData(){
-    if (localStorage.getItem('tasks') == null){
-        console.log('tasks null!')
-    } else{
-        console.log(JSON.parse(localStorage.getItem('tasks')))
-        setTasksFromLocalStorage(JSON.parse(localStorage.getItem('tasks')))
+function loadLocalStorage(){
+    const loadTaskData = localStorage.getItem('tasks')
+    if (loadTaskData != null){
+        setTasksFromLocalStorage(JSON.parse(loadTaskData))
     }
 
-    if (localStorage.getItem('projects') == null){
-        console.log('projects null')
-    } else {
-        setProjectsFromLocalStorage(JSON.parse(localStorage.getItem('projects')))
+    const loadProjectData = localStorage.getItem('projects')
+    if (loadProjectData != null){
+        setProjectsFromLocalStorage(JSON.parse(loadProjectData))
     }
 }
 
-export {getSavedData}
+export {loadLocalStorage}

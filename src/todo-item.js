@@ -1,5 +1,5 @@
 import { getProjectsFormHTML, getSelectedProjectView} from "./projects";
-import updateLocalStorage from "./localstorage";
+import saveLocalStorage from "./localstorage";
 
 const listOfTodos = [];
 let currentView = 1
@@ -129,7 +129,7 @@ class TodoItem {
     addItem(){
         listOfTodos.push(this);
         displayItems(currentView);
-        updateLocalStorage();
+        saveLocalStorage();
     }
 
     setTask(title, description, dueDate, priority, project){
@@ -139,13 +139,13 @@ class TodoItem {
         this.priority = priority
         this.projects = project
         displayItems(currentView);
-        updateLocalStorage();
+        saveLocalStorage();
     }
 
     editTask(){
         taskForm(this);
         displayItems(currentView)
-        updateLocalStorage();
+        saveLocalStorage();
     }
 
     deleteTask(){
@@ -154,12 +154,12 @@ class TodoItem {
             item.idx = i
         })
         displayItems(currentView);
-        updateLocalStorage();
+        saveLocalStorage();
     }
 
     setComplete(){
         this.completed = !this.completed
-        updateLocalStorage();
+        saveLocalStorage();
     }
 
     listItems(){
@@ -174,7 +174,7 @@ function resetDeletedProject(project){
         }
     })
     displayItems(currentView)
-    updateLocalStorage();
+    saveLocalStorage();
 }
 
 function getTasks(){
