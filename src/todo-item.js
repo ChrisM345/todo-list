@@ -122,6 +122,7 @@ class TodoItem {
         this.priority = priority;
         this.projects = projects;
         this.idx = listOfTodos.length;
+        this.completed = false;
     }
 
     addItem(){
@@ -149,6 +150,12 @@ class TodoItem {
             item.idx = i
         })
         displayItems(currentView);
+    }
+
+    setComplete(){
+        this.completed = !this.completed
+        console.log(this.completed)
+        console.log(this)
     }
 
     listItems(){
@@ -207,6 +214,17 @@ function displayItems(time){
                     todo.editTask();
                 })
 
+                const completedTask = document.createElement('button')
+                completedTask.className = 'completed-task'
+                completedTask.innerText = 'Set Complete'
+
+                completedTask.addEventListener('click', (event) => {
+                    todo.setComplete();
+                    console.log(event.target.parentNode)
+                    if(todo.completed) {event.target.parentNode.classList.add('task-completed')}
+                    else {event.target.parentNode.classList.remove('task-completed')}
+                })
+
                 task.append(header)
                 task.append(desc)
                 task.append(dueDate)
@@ -214,6 +232,7 @@ function displayItems(time){
                 task.append(projectLabel)
                 task.append(delTaskBtn)
                 task.append(editTaskBtn)
+                task.append(completedTask)
                 content.append(task)
             }
         }
