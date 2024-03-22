@@ -3,6 +3,12 @@ import { getProjectsFormHTML } from "./projects";
 const listOfTodos = [];
 let currentView = 1
 
+function sortTasks(tasks){
+    tasks.sort((a, b) => {
+        return (a.dueDate > b.dueDate) ? 1 : ((b.dueDate > a.dueDate) ? -1 : 0 )})
+    console.log(tasks)
+}
+
 function setCurrentView(time){
     currentView = time;
     displayItems(currentView)
@@ -12,7 +18,6 @@ function setCurrentView(time){
 export default function addTask(title, description, dueDate, priority) {
     let task = new TodoItem(title, description, dueDate, priority);
     task.addItem();
-    console.log(listOfTodos)
 }
 
 //Form for both creating and editing tasks
@@ -28,7 +33,7 @@ function taskForm(obj){
 
         <div class="form-row">
             <label for="description"><span aria-label="required">*</span>Task Description</label><br>
-            <input type="textarea" name="description" id="description" required>
+            <textarea name="description" id="description" rows="4" cols="30" required></textarea>
         </div>
 
         <div class="form-row">
@@ -40,16 +45,16 @@ function taskForm(obj){
             <label for="priority">Task Priority</label><br>
 
             <label for="none">None:</label>
-            <input type="radio" name="priority" id="none" value="none">
+            <input type="radio" name="priority" id="None" value="None">
 
             <label for="low">Low:</label>
-            <input type="radio" name="priority" id="low" value="low">
+            <input type="radio" name="priority" id="Low" value="Low">
 
             <label for="medium">Medium:</label>
-            <input type="radio" name="priority" id="medium" value="medium">
+            <input type="radio" name="priority" id="Medium" value="Medium">
 
             <label for="high">High:</label>
-            <input type="radio" name="priority" id="high" value="high">
+            <input type="radio" name="priority" id="High" value="High">
         </div>
 
         <div class="form-row">
@@ -119,26 +124,6 @@ class TodoItem {
 
     addItem(){
         listOfTodos.push(this);
-        // const content = document.querySelector('.content');
-        // const task = document.createElement('div')
-        // task.className = 'task';
-        // const header = document.createElement('h3')
-        // header.innerText = this.title
-        // const desc = document.createElement('p')
-        // desc.innerText = this.description
-
-        // const delTaskBtn = document.createElement('button');
-        // delTaskBtn.className = 'delete-task';
-        // delTaskBtn.innerText = 'Delete Task';
-
-        // delTaskBtn.addEventListener('click', () => {
-        //     this.deleteTask();
-        // })
-
-        // task.append(header);
-        // task.append(desc);
-        // task.append(delTaskBtn);
-        // content.append(task);
         displayItems(currentView);
     }
 
@@ -152,6 +137,7 @@ class TodoItem {
 
     editTask(){
         taskForm(this);
+        displayItems(currentView)
     }
 
     deleteTask(){
@@ -165,51 +151,11 @@ class TodoItem {
     listItems(){
         console.log(listOfTodos)
     }
-
-    // displayItems(){
-    //     const content = document.querySelector('.content');
-    //     content.innerHTML = '';
-    //     listOfTodos.forEach((todo) => {
-    //         const task = document.createElement('div')
-    //         task.className = 'task';
-    //         const header = document.createElement('h3')
-    //         header.innerText = todo.title
-    //         const desc = document.createElement('p')
-    //         desc.innerText = todo.description
-    //         const dueDate = document.createElement('p');
-    //         dueDate.innerText = todo.dueDate;
-    //         const priority = document.createElement('p')
-    //         priority.innerText = todo.priority
-
-    //         const delTaskBtn = document.createElement('button');
-    //         delTaskBtn.className = 'delete-task';
-    //         delTaskBtn.innerText = 'Delete Task';
-
-    //         const editTaskBtn = document.createElement('button');
-    //         editTaskBtn.className = 'edit-task'
-    //         editTaskBtn.innerText = 'Edit Task'
-    
-    //         delTaskBtn.addEventListener('click', () => {
-    //             todo.deleteTask();
-    //         })
-
-    //         editTaskBtn.addEventListener('click', () => {
-    //             todo.editTask();
-    //         })
-
-    //         task.append(header)
-    //         task.append(desc)
-    //         task.append(dueDate)
-    //         task.append(priority)
-    //         task.append(delTaskBtn)
-    //         task.append(editTaskBtn)
-    //         content.append(task)
-    //     })
-    // }
 }
 
 
 function displayItems(time){
+    sortTasks(listOfTodos)
     const date = new Date();
     const today = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
     const futureDate = new Date()
@@ -226,9 +172,9 @@ function displayItems(time){
             const desc = document.createElement('p')
             desc.innerText = todo.description
             const dueDate = document.createElement('p');
-            dueDate.innerText = todo.dueDate;
+            dueDate.innerText = `Due Date: ${todo.dueDate}`;
             const priority = document.createElement('p')
-            priority.innerText = todo.priority
+            priority.innerText = `Priority: ${todo.priority}`
 
             const delTaskBtn = document.createElement('button');
             delTaskBtn.className = 'delete-task';
@@ -260,19 +206,29 @@ function displayItems(time){
 
 
 //test data
-let task1 = new TodoItem('test1', 'desc of test 1', '2024-03-20', 'high');
+let task1 = new TodoItem('test1', 'desc of test 1', '2024-05-20', 'High');
 listOfTodos.push(task1)
-let task2 = new TodoItem('test2', 'desc of test 2', '2024-03-26', 'medium');
+let task2 = new TodoItem('test2', 'desc of test 2', '2024-07-26', 'Medium');
 listOfTodos.push(task2)
-let task3 = new TodoItem('test3', 'desc of test 3', '2024-03-27', 'low');
+let task3 = new TodoItem('test3', 'desc of test 3', '2024-03-27', 'Low');
 listOfTodos.push(task3)
-let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-28', 'high');
+let task4 = new TodoItem('test4', 'desc of test 4', '2024-03-10', 'High');
 listOfTodos.push(task4)
-let task5 = new TodoItem('test5', 'desc of test 5', '2024-05-16', 'none');
+let task5 = new TodoItem('test5', 'desc of test 5', '2023-05-16', 'None');
 listOfTodos.push(task5)
+let task6 = new TodoItem('test6', 'desc of test 6', '2024-10-16', 'None');
+listOfTodos.push(task6)
+let task7 = new TodoItem('test7', 'desc of test 7', '2024-12-16', 'None');
+listOfTodos.push(task7)
+let task8 = new TodoItem('test8', 'desc of test 8', '2024-01-16', 'None');
+listOfTodos.push(task8)
+let task9 = new TodoItem('test9', 'desc of test 9', '2024-02-16', 'None');
+listOfTodos.push(task9)
+let task10 = new TodoItem('test10', 'desc of test 10', '2024-01-16', 'None');
+listOfTodos.push(task10)
 
+sortTasks(listOfTodos)
 displayItems(currentView);
-console.log(listOfTodos)
 
 
 export {taskForm, displayItems, setCurrentView}

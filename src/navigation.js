@@ -1,7 +1,10 @@
 import { getProjects, addProject} from "./projects";
 import { setCurrentView } from "./todo-item";
-
+import { getSelectedProjectView } from "./projects";
 export default function navigationBar() {
+
+    const topBar = document.querySelector('.top-bar');
+    topBar.innerText = `View: All My Tasks, Projects: ${getSelectedProjectView()}`
     const navigationBar = document.querySelector('.navigation');
     const defaultList = document.createElement('ul')
 
@@ -23,17 +26,12 @@ export default function navigationBar() {
         listButton.className = 'list-item';
         listButton.innerText = item;
         listButton.addEventListener('click', (e) => {
+            topBar.innerText = `${e.target.innerText}, ${getSelectedProjectView()}`
             displayTaskCase(e.target.innerText);
         })
         listItem.append(listButton)
         defaultList.append(listItem);
     })
-
-    const nextSevenBtn = document.querySelector('.Next-7-Days')
-    console.log(nextSevenBtn)
-    // nextSevenBtn.addEventListener('click', () =>{
-    //     console.log("test")
-    // })
 
     //Include views for different project labels
     const projectList = document.createElement('ul')

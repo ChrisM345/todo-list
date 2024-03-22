@@ -6,20 +6,38 @@ h3{
     margin: 0;
 }
 
+
 .container{
-    display: flex;
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: 50px auto;
     min-height: 100vh;
 }
 
+.top-bar{
+    border: solid red;
+    grid-column-start: 2;
+    min-height: 50px;
+    max-height: 50px;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 700;
+
+}
+
 .navigation{
+    /* grid-column-start: 1; */
+    grid-row: 1 / 3;
     display: flex;
     border: solid purple;
     flex-direction: column;
     min-width: 200px;
     gap: 20px;
+    position: fixed;
 }
 
 .content{
+    grid-column-start: 2;
     flex-grow: 1;
 }
 
@@ -35,6 +53,13 @@ ul{
     border: solid orange;
 }
 
-.task{
-    border: solid green;
+.task {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: dashed black;
+}
+.task p{
+    margin: 0;
+    padding: 0;
 }
