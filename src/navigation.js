@@ -2,6 +2,7 @@ import { setCurrentView } from "./todo-item";
 import { getProjects, addProject, getSelectedProjectView, setSelectedProjectView, deleteProjectForm} from "./projects";
 
 export default function navigationBar() {
+    getSelectedProjectView();
     const topBar = document.querySelector('.top-bar');
     topBar.innerText = `View: All My Tasks, Projects: ${getSelectedProjectView()}`
     const navigationBar = document.querySelector('.navigation');
@@ -43,6 +44,7 @@ export default function navigationBar() {
     addProjectBtn.innerText = 'Add Project'
     projectList.append(addProjectBtn)
 
+    //Add a button to delete project label
     const deleteProjectBtn = document.createElement('button');
     deleteProjectBtn.className = 'del-project-btn';
     deleteProjectBtn.innerText = 'Delete Project'
@@ -64,6 +66,7 @@ export default function navigationBar() {
         const listButton = document.createElement('button')
         listButton.className = 'list-item';
         listButton.innerText = project;
+        //Set the project label as a button and allow it to update the current task view
         listButton.addEventListener('click', (e) => {
             topBar.innerText = `View: ${view}, Projects: ${e.target.innerText}`
             setSelectedProjectView(e.target.innerText)
@@ -84,6 +87,7 @@ export default function navigationBar() {
             const listButton = document.createElement('button')
             listButton.className = 'list-item';
             listButton.innerText = project;
+            //Set the project label as a button and allow it to update the current task view
             listButton.addEventListener('click', (e) => {
                 topBar.innerText = `View: ${view}, Projects: ${e.target.innerText}`
                 setSelectedProjectView(e.target.innerText)
@@ -96,9 +100,9 @@ export default function navigationBar() {
 
     navigationBar.append(defaultList)
     navigationBar.append(projectList)
-    //<ul><li>
 }
 
+//Takes the time (Today, Next 7 Days, All) and adjusts the view
 function displayTaskCase(time){
     switch (time) {
         case 'Today':

@@ -1,4 +1,5 @@
 import { getProjectsFormHTML, getSelectedProjectView} from "./projects";
+import updateLocalStorage from "./localstorage";
 
 const listOfTodos = [];
 let currentView = 1
@@ -15,7 +16,7 @@ function setCurrentView(time){
 }
 
 //Create new object and add it to the list of tasks
-export default function addTask(title, description, dueDate, priority) {
+export default function addTask(title, description, dueDate, priority, projects) {
     let task = new TodoItem(title, description, dueDate, priority, projects='All');
     task.addItem();
 }
@@ -128,6 +129,7 @@ class TodoItem {
     addItem(){
         listOfTodos.push(this);
         displayItems(currentView);
+        updateLocalStorage();
     }
 
     setTask(title, description, dueDate, priority, project){
@@ -137,11 +139,13 @@ class TodoItem {
         this.priority = priority
         this.projects = project
         displayItems(currentView);
+        updateLocalStorage();
     }
 
     editTask(){
         taskForm(this);
         displayItems(currentView)
+        updateLocalStorage();
     }
 
     deleteTask(){
@@ -150,12 +154,12 @@ class TodoItem {
             item.idx = i
         })
         displayItems(currentView);
+        updateLocalStorage();
     }
 
     setComplete(){
         this.completed = !this.completed
-        console.log(this.completed)
-        console.log(this)
+        updateLocalStorage();
     }
 
     listItems(){
@@ -170,6 +174,20 @@ function resetDeletedProject(project){
         }
     })
     displayItems(currentView)
+    updateLocalStorage();
+}
+
+function getTasks(){
+    return listOfTodos;
+}
+
+function setTasksFromLocalStorage(data){
+    listOfTodos.length = 0;
+    data.forEach((task) => {
+        console.log(task)
+        listOfTodos.push(task);
+    })
+    displayItems(currentView);
 }
 
 function displayItems(time){
@@ -267,4 +285,4 @@ sortTasks(listOfTodos)
 displayItems(currentView);
 
 
-export {taskForm, displayItems, setCurrentView, resetDeletedProject}
+export {taskForm, displayItems, setCurrentView, resetDeletedProject, getTasks, setTasksFromLocalStorage}

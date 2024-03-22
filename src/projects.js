@@ -1,6 +1,5 @@
 import { resetDeletedProject } from "./todo-item";
-
-resetDeletedProject
+import updateLocalStorage from "./localstorage";
 
 const myProjects = ['All', 'Test']
 let selectedProjectView = 'All';
@@ -15,6 +14,7 @@ function addProject(project){
     }
     else {
         myProjects.push(project)
+        updateLocalStorage();
         return 1;
     }
 }
@@ -41,9 +41,15 @@ function setSelectedProjectView(view){
 function deleteProject(project){
     console.log(project)
     myProjects.splice(myProjects.indexOf(project), 1);
+    updateLocalStorage();
     resetDeletedProject(project)
+}
 
-
+function setProjectsFromLocalStorage(data){
+    myProjects.length = 0;
+    data.forEach((project) => {
+        myProjects.push(project)
+    })
 }
 
 function deleteProjectForm(){
@@ -82,4 +88,4 @@ function deleteProjectForm(){
         form.innerHTML = '';
     })
 }
-export {getProjects, getProjectsFormHTML, addProject, getSelectedProjectView, setSelectedProjectView, deleteProjectForm}
+export {getProjects, getProjectsFormHTML, addProject, getSelectedProjectView, setSelectedProjectView, deleteProjectForm, setProjectsFromLocalStorage}
