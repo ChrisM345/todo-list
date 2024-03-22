@@ -1,14 +1,15 @@
 import { getProjects, addProject} from "./projects";
 import { setCurrentView } from "./todo-item";
-import { getSelectedProjectView } from "./projects";
-export default function navigationBar() {
+import { getSelectedProjectView, setSelectedProjectView} from "./projects";
 
+export default function navigationBar() {
     const topBar = document.querySelector('.top-bar');
     topBar.innerText = `View: All My Tasks, Projects: ${getSelectedProjectView()}`
     const navigationBar = document.querySelector('.navigation');
     const defaultList = document.createElement('ul')
 
     //Add a button to the default navigation bar to add tasks
+    let view = 'All My Tasks';
     const todoListItem = document.createElement('li');
     todoListItem.className = 'add-task-item';
     const todoButton = document.createElement('button');
@@ -26,8 +27,9 @@ export default function navigationBar() {
         listButton.className = 'list-item';
         listButton.innerText = item;
         listButton.addEventListener('click', (e) => {
-            topBar.innerText = `${e.target.innerText}, ${getSelectedProjectView()}`
-            displayTaskCase(e.target.innerText);
+            view = e.target.innerText
+            topBar.innerText = `View: ${view}, Projects: ${getSelectedProjectView()}`
+            displayTaskCase(view);
         })
         listItem.append(listButton)
         defaultList.append(listItem);
@@ -51,8 +53,15 @@ export default function navigationBar() {
     const myProjects = getProjects()
     myProjects.forEach((project) => {
         const listItem = document.createElement('li');
-        listItem.className = 'list-item';
-        listItem.innerText = project;
+        const listButton = document.createElement('button')
+        listButton.className = 'list-item';
+        listButton.innerText = project;
+        listButton.addEventListener('click', (e) => {
+            topBar.innerText = `View: ${view}, Projects: ${e.target.innerText}`
+            setSelectedProjectView(e.target.innerText)
+            displayTaskCase(view)
+        })
+        listItem.append(listButton);
         projectList.append(listItem);
     })
 
@@ -64,8 +73,15 @@ export default function navigationBar() {
         const addedProjectBool = addProject(project)
         if (addedProjectBool) {
             const listItem = document.createElement('li');
-            listItem.className = 'list-item';
-            listItem.innerText = project;
+            const listButton = document.createElement('button')
+            listButton.className = 'list-item';
+            listButton.innerText = project;
+            listButton.addEventListener('click', (e) => {
+                topBar.innerText = `View: ${view}, Projects: ${e.target.innerText}`
+                setSelectedProjectView(e.target.innerText)
+                displayTaskCase(view)
+            })
+            listItem.append(listButton)
             projectList.append(listItem);
         }
     })

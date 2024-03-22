@@ -1,5 +1,5 @@
 const myProjects = ['All', 'Test']
-const selectedProjectView = 'All';
+let selectedProjectView = 'All';
 
 function getProjects() {
     return myProjects
@@ -30,4 +30,8 @@ function getSelectedProjectView(){
     return selectedProjectView;
 }
 
-export {getProjects, getProjectsFormHTML, addProject, getSelectedProjectView}
+function setSelectedProjectView(view){
+    selectedProjectView = view;
+}
+
+export {getProjects, getProjectsFormHTML, addProject, getSelectedProjectView, setSelectedProjectView}
